@@ -1,0 +1,85 @@
+# Context Guardian — Architecture Overview (Text Diagram)
+
+This architecture describes the full multi‑agent workflow used by Context Guardian to transform unclear human messages into clear, actionable communication.
+
+──────────────────────────────────────────────────────────────────────────────
+
+                        ┌──────────────────────────────┐
+                        │         User Message          │
+                        └───────────────┬───────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │         Intake Agent          │
+                        │ - Normalizes raw text         │
+                        │ - Prepares base packet        │
+                        └───────────────┬───────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │    Interpretation Agent       │
+                        │ - Extracts verbs              │
+                        │ - Detects recipients          │
+                        │ - Extracts time expressions   │
+                        │ - Notes missing context       │
+                        └───────────────┬───────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │      Risk Detection Agent     │
+                        │ - Scores clarity              │
+                        │ - Flags ambiguity             │
+                        │ - Detects missing action      │
+                        │ - Detects missing recipient   │
+                        │ - Detects missing deadline    │
+                        │ - Sets severity (L/M/H)       │
+                        └───────────────┬───────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │      Correction Agent         │
+                        │ - Calls Gemini LLM            │
+                        │ - Uses strict JSON output     │
+                        │ - Returns rewritten_text only │
+                        │ - Applies selected style      │
+                        │ - Falls back to heuristic     │
+                        └───────────────┬──────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │        Loop Agent             │
+                        │ - Shows suggestion            │
+                        │ - User rates clarity          │
+                        │ - Accept / Edit / Refine      │
+                        │ - Re‑queries LLM if needed    │
+                        └───────────────┬──────────────┘
+                                        │
+                                        ▼
+                        ┌──────────────────────────────┐
+                        │        Final Message          │
+                        └──────────────────────────────┘
+
+
+──────────────────────────── Memory System (Side Channel) ─────────────────────
+
+                           ┌──────────────────────────────┐
+                           │        Memory Agent           │
+                           │ - Stores last 200 corrections │
+                           │ - Tracks style preferences    │
+                           │ - Stores clarity scores       │
+                           │ - Provides personalized hints │
+                           └──────────────────────────────┘
+
+Memory agent is invoked whenever:
+- A correction is accepted
+- A refinement improves clarity
+- Style preferences need updating
+
+──────────────────────────────────────────────────────────────────────────────
+
+This architecture aligns with Kaggle’s multi‑agent expectations:
+✓ Multi‑agent orchestration  
+✓ LLM‑powered tool agent  
+✓ Memory + preferences  
+✓ Observability (debug/JSON modes)  
+✓ Safe fallback operations  

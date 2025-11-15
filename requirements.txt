@@ -1,0 +1,5 @@
+numpy>=1.21
+python-dotenv>=1.0
+nbformat
+google-generativeai
+

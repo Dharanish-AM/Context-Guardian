@@ -1,0 +1,28 @@
+{
+  "history": [
+    {
+      "original": "Hi how are you ?",
+      "suggestion": "Hey there! How are you doing today?",
+      "style_used": "neutral",
+      "clarity_score": null,
+      "timestamp": "2025-11-15T22:02:30.274093"
+    },
+    {
+      "original": "Send me the file",
+      "suggestion": "Please send me the file named [FILE_NAME].",
+      "style_used": "neutral",
+      "clarity_score": null,
+      "timestamp": "2025-11-15T22:22:56.184135"
+    },
+    {
+      "original": "Send me the file",
+      "suggestion": "Please send the file, [FILE_NAME], to me at your earliest convenience.",
+      "style_used": "neutral",
+      "clarity_score": null,
+      "timestamp": "2025-11-15T22:24:46.472323"
+    }
+  ],
+  "style_preferences": {
+    "neutral": 3
+  }
+}
